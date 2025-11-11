@@ -1,9 +1,7 @@
 # frozen_string_literal: true
 
-require 'spec_helper'
-
 module PaperTrailScrapbook
-  ::RSpec.describe LifeHistory do
+  RSpec.describe LifeHistory do
     before do
       PaperTrailScrapbook.config.whodunnit_class = Person
       PaperTrail.request.whodunnit = person.id

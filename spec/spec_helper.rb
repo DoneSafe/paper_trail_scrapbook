@@ -48,7 +48,7 @@ end
 # ActionDispatch::Integration HTTP request method switch to keyword args
 # (see https://github.com/rails/rails/blob/master/actionpack/CHANGELOG.md)
 def params_wrapper(args)
-  if defined?(::Rails) && active_record_gem_version >= Gem::Version.new('5.0.0.beta1')
+  if defined?(Rails) && active_record_gem_version >= Gem::Version.new('5.0.0.beta1')
     { params: args }
   else
     args
@@ -61,13 +61,16 @@ require 'ffaker'
 require 'timecop'
 
 # Run any available migration
-schema_migration = ActiveRecord::Base.connection.schema_migration
-::ActiveRecord::MigrationContext.new(File.expand_path('dummy_app/db/migrate/', __dir__), schema_migration).migrate
+migrations_paths = File.expand_path('dummy_app/db/migrate', __dir__)
+migration_context = ActiveRecord::MigrationContext.new(migrations_paths)
+migration_context.migrate
 
 require 'database_cleaner'
 DatabaseCleaner.strategy = :truncation
 
 RSpec.configure do |config|
-  config.fixture_path = "#{::Rails.root}/spec/fixtures"
-  config.use_transactional_fixtures = active_record_gem_version >= ::Gem::Version.new('5')
+  config.fixture_paths = ["#{Rails.root}/spec/fixtures"]
+  config.use_transactional_fixtures = active_record_gem_version >= Gem::Version.new('5')
 end
+
+VersionStruct = Struct.new(:id, :item_type, :item_id, :event, :whodunnit, :object, :object_changes, :created_at, :version_author)

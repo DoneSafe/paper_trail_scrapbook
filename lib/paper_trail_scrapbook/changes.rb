@@ -46,7 +46,7 @@ module PaperTrailScrapbook
 
     def digest(key, values)
       old, new = values
-      return if old.nil? && (new.nil? || new.eql?('')) || (old == new && !creating?)
+      return if (old.nil? && (new.nil? || new.eql?(''))) || (old == new && !creating?)
 
       "#{BULLET} #{key.tr('_', ' ')}: #{detailed_analysis(key, new, old)}"
     end
@@ -69,11 +69,10 @@ module PaperTrailScrapbook
 
     def find_value(key, value)
       return value.to_s unless build_associations.key?(key)
-
       return '*empty*' unless value
 
       begin
-        assoc_target(key).find(value).to_s.to_s + "[#{value}]"
+        String(assoc_target(key).find(value).to_s) + "[#{value}]"
       rescue StandardError
         "*not found*[#{value}]"
       end
@@ -121,18 +120,16 @@ module PaperTrailScrapbook
 
     def build_associations
       @build_associations ||=
-        Hash[
-          klass
+        klass
         .reflect_on_all_associations
         .select { |a| a.macro.equal?(:belongs_to) }
-        .map { |x| [x.foreign_key.to_s, assoc_klass(x.name, x.options)] }
-        ]
+        .to_h { |x| [x.foreign_key.to_s, assoc_klass(x.name, x.options)] }
     end
 
     def changes
       @changes ||= if object_changes
                      YAML
-                       .load(object_changes)
+                       .load(object_changes, permitted_classes: [Symbol, Date, Time, ActiveSupport::TimeWithZone, BigDecimal], aliases: true)
                        .except(*PaperTrailScrapbook.config.scrub_columns)
                    else
                      {}
