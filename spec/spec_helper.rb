@@ -61,22 +61,16 @@ require 'ffaker'
 require 'timecop'
 
 # Run any available migration
-schema_migration = ActiveRecord::Base.connection.schema_migration
-ActiveRecord::MigrationContext.new(File.expand_path('dummy_app/db/migrate/', __dir__), schema_migration).migrate
+migrations_paths = File.expand_path('dummy_app/db/migrate', __dir__)
+migration_context = ActiveRecord::MigrationContext.new(migrations_paths)
+migration_context.migrate
 
 require 'database_cleaner'
 DatabaseCleaner.strategy = :truncation
-# require 'psych'
-# require 'big_decimal'
-# Psych.load_tags['ruby/object:BigDecimal'] = BigDecimal
-# Psych.load_tags['tag:ruby.yaml.org,2002:object:BigDecimal'] = BigDecimal
-# Psych.load_tags['tag:ruby.yaml.org,2002:BigDecimal'] = BigDecimal
-#
-# # Also fix Time (common in PaperTrail object_changes)
-Psych.load_tags['ruby/object:Time'] = Time
-# Psych.load_tags['tag:ruby.yaml.org,2002:object:Time'] = Time
-# Psych.load_tags['tag:ruby.yaml.org,2002:Time'] = Time
+
 RSpec.configure do |config|
-  config.fixture_path = "#{Rails.root}/spec/fixtures"
+  config.fixture_paths = ["#{Rails.root}/spec/fixtures"]
   config.use_transactional_fixtures = active_record_gem_version >= Gem::Version.new('5')
 end
+
+VersionStruct = Struct.new(:id, :item_type, :item_id, :event, :whodunnit, :object, :object_changes, :created_at, :version_author)

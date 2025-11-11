@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
 class CallbackModifier < ActiveRecord::Base
-  has_paper_trail on: []
-
   def test_destroy
     transaction do
       run_callbacks(:destroy) do

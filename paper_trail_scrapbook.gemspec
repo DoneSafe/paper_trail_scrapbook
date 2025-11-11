@@ -22,23 +22,5 @@ Gem::Specification.new do |gem|
   gem.add_dependency 'concord'
   gem.add_dependency 'paper_trail', ['>= 11', '< 18']
 
-  gem.add_development_dependency 'ffaker', '~> 2.5'
-  gem.add_development_dependency 'rake', '~> 13.0.1'
-
-  # Why `railties`? Possibly used by `spec/dummy_app` boot up?
-  gem.add_development_dependency 'railties', '>= 5.2.3'
-
-  gem.add_development_dependency 'codeclimate-test-reporter', '~> 1.0.7'
-  gem.add_development_dependency 'database_cleaner'
-  gem.add_development_dependency 'loofah'
-  gem.add_development_dependency 'pg'
-  gem.add_development_dependency 'rack', '>= 2.0.6'
-  gem.add_development_dependency 'rspec-jumpstart'
-  gem.add_development_dependency 'rspec_junit_formatter'
-  gem.add_development_dependency 'rspec-rails'
-  gem.add_development_dependency 'rubocop'
-  gem.add_development_dependency 'rubocop-rspec'
-  gem.add_development_dependency 'simplecov'
-  gem.add_development_dependency 'timecop', '~> 0.8.0'
   gem.metadata['rubygems_mfa_required'] = 'true'
 end

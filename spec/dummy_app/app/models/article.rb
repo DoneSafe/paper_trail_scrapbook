@@ -15,7 +15,7 @@ class Article < ActiveRecord::Base
       answer: 42,
       action: :action_data_provider_method,
       question: proc { "31 + 11 = #{31 + 11}" },
-      article_id: proc { |article| article.id },
+      article_id: proc(&:id),
       title: :title
     }
   )
