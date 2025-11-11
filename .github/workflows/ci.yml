@@ -49,12 +49,6 @@ jobs:
           ruby-version: ${{ matrix.ruby }}
           bundler-cache: true
 
-      - name: Install Rails from main (for Rails 8.1)
-        if: matrix.rails == '8.1'
-        run: |
-          echo "gem 'rails', github: 'rails/rails', branch: 'main'" >> Gemfile
-          bundle update rails
-
       - name: Setup test database
         run: bundle exec rails db:create db:schema:load
 
