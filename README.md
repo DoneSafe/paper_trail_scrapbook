@@ -1,7 +1,6 @@
 # Paper Trail Scrapbook
 
-
-[![Gem Version](https://badge.fury.io/rb/paper_trail_scrapbook.svg)](https://badge.fury.io/rb/paper_trail_scrapbook)
+[![CI](https://github.com/DoneSafe/paper_trail_scrapbook/actions/workflows/ci.yml/badge.svg)](https://github.com/DoneSafe/paper_trail_scrapbook/actions/workflows/ci.yml)
 
 Human Readable audit reporting for users of [PaperTrail](https://github.com/paper-trail-gem/paper_trail) gem.
 
@@ -9,7 +8,7 @@ Human Readable audit reporting for users of [PaperTrail](https://github.com/pape
 
 Add PaperTrailScrapBook to your `Gemfile`.
 
-`gem 'paper_trail_scrapbook'`
+`gem 'paper_trail_scrapbook', github: 'donesafe/paper_trail_scrapbook', tag: 'v0.3.0'`
 
 ## Basic Usage
 
@@ -73,9 +72,9 @@ You also have the option of seeing the most recent changes first (default is chr
 The `LifeStory` module provides a complete history of an object (limited by the
 availability of its PaperTrail versions):
 ```ruby
-widget = Widget.find 42
+widget = Widget.find(42)
 
-text = PaperTrailScrapbook::LifeHistory.new(widget).story
+PaperTrailScrapbook::LifeHistory.new(widget).story
 # On Wednesday, 07 Jun 2017 at 2:37 PM, Rob Owens created the following Widget information:
 #   • email: Tim@example.com
 #   • name: Tim's Widget
@@ -107,9 +106,9 @@ end
 A history leveraging this feature might look like this:
 
 ```ruby
-widget = Widget.find 42
+widget = Widget.find(42)
 
-text = PaperTrailScrapbook::LifeHistory.new(widget).story
+PaperTrailScrapbook::LifeHistory.new(widget).story
 
 # On Monday, 05 Jun 2017 at 12:37 PM, Rob Owens created the following Manufacturer[411] information:
 #   • email: widgetsrus@example.com
@@ -152,15 +151,16 @@ class Widget < ApplicationRecord
     version
   end
 
-  ...
+  # ...
+end
 ```
 
 Then, the above history would be:
 
 ```ruby
-widget = Widget.find 42
+widget = Widget.find(42)
 
-text = PaperTrailScrapbook::LifeHistory.new(widget).story
+PaperTrailScrapbook::LifeHistory.new(widget).story
 
 # On Wednesday, 07 Jun 2017 at 2:37 PM, Rob Owens created the following Widget information:
 #   • email: Tim@example.com
@@ -183,9 +183,9 @@ text = PaperTrailScrapbook::LifeHistory.new(widget).story
 The `UserJournal` module provides a list of changes made by a particular
 whodunnit:
 ```ruby
-who = WhoDidIt.find 42
+who = WhoDidIt.find(42)
 
-text = PaperTrailScrapbook::UserJournal.new(who).story
+PaperTrailScrapbook::UserJournal.new(who).story
 # Between Wednesday, 31 Dec 1969 at 4:00 PM PST and Friday, 26 Jan 2018 at 10:35 AM PST, Rob Owens made the following changes:
 #
 # On Wednesday, 07 Jan 2018 at 2:37 PM, created the following Widget information:
@@ -213,7 +213,7 @@ text = PaperTrailScrapbook::UserJournal.new(who).story
 
 You can also scope the change list to a specific class:
 ```ruby
-text = PaperTrailScrapbook::UserJournal.new(who, klass: Widget).story
+PaperTrailScrapbook::UserJournal.new(who, klass: Widget).story
 # Between Wednesday, 31 Dec 1969 at 4:00 PM PST and Friday, 26 Jan 2018 at 10:35 AM PST, Rob Owens made the following Widget changes:
 #
 # On Wednesday, 07 Jan 2018 at 2:37 PM, created Widget[123]:
@@ -229,7 +229,7 @@ text = PaperTrailScrapbook::UserJournal.new(who, klass: Widget).story
 
 Or view changes in a time range:
 ```ruby
-text = PaperTrailScrapbook::UserJournal.new(who, start: 1.month.ago, end: Time.now).story
+PaperTrailScrapbook::UserJournal.new(who, start: 1.month.ago, end: Time.now).story
 # Between Tuesday, 26 Dec 2017 at 4:00 PM PST and Friday, 26 Jan 2018 at 4:00 PM PST, Rob Owens made the following changes:
 #
 # On Wednesday, 07 Jan 2018 at 2:37 PM, created the following Widget information:
@@ -245,7 +245,7 @@ text = PaperTrailScrapbook::UserJournal.new(who, start: 1.month.ago, end: Time.n
 
 ## Problems
 
-Please use GitHub's [issue tracker](http://github.com/hintmedia/paper_trail_scrapbook/issues).
+Please use GitHub's [issue tracker](http://github.com/DoneSafe/paper_trail_scrapbook/issues).
 
 
 ## Contributors
