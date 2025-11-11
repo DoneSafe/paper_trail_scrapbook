@@ -8,7 +8,9 @@ Human Readable audit reporting for users of [PaperTrail](https://github.com/pape
 
 Add PaperTrailScrapBook to your `Gemfile`.
 
-`gem 'paper_trail_scrapbook', github: 'donesafe/paper_trail_scrapbook', tag: 'v0.3.0'`
+```ruby
+gem 'paper_trail_scrapbook', github: 'donesafe/paper_trail_scrapbook', tag: 'v0.3.0'
+```
 
 ## Basic Usage
 
