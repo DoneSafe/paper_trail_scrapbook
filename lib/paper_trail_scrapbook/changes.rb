@@ -46,7 +46,7 @@ module PaperTrailScrapbook
 
     def digest(key, values)
       old, new = values
-      return if old.nil? && (new.nil? || new.eql?('')) || (old == new && !creating?)
+      return if (old.nil? && (new.nil? || new.eql?(''))) || (old == new && !creating?)
 
       "#{BULLET} #{key.tr('_', ' ')}: #{detailed_analysis(key, new, old)}"
     end
@@ -132,7 +132,7 @@ module PaperTrailScrapbook
     def changes
       @changes ||= if object_changes
                      YAML
-                       .load(object_changes)
+                       .load(object_changes, permitted_classes: [Symbol, Date, Time, ActiveSupport::TimeWithZone, BigDecimal], aliases: true)
                        .except(*PaperTrailScrapbook.config.scrub_columns)
                    else
                      {}

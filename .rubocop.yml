@@ -1,7 +1,7 @@
 AllCops:
   DisabledByDefault: false
-  TargetRubyVersion: 2.6
-  TargetRailsVersion: 6.1
+  TargetRubyVersion: 3.2
+  TargetRailsVersion: 8.1
   DisplayCopNames: true
   Exclude:
     - 'db/**/*'
@@ -11,12 +11,13 @@ AllCops:
     - 'test/**/*'
     - 'bin/**/*'
     - 'spec/dummy_app/db/**/*'
+  NewCops: enable
 
 Security/YAMLLoad:
   Enabled: false
 
 # Limit line length
-Metrics/LineLength:
+Layout/LineLength:
   Max: 150
 
 Metrics/BlockLength:
@@ -28,4 +29,5 @@ Metrics/ModuleLength:
   Exclude:
     - 'spec/**/*'
 
-
+Metrics/AbcSize:
+  Max: 20

@@ -48,7 +48,7 @@ end
 # ActionDispatch::Integration HTTP request method switch to keyword args
 # (see https://github.com/rails/rails/blob/master/actionpack/CHANGELOG.md)
 def params_wrapper(args)
-  if defined?(::Rails) && active_record_gem_version >= Gem::Version.new('5.0.0.beta1')
+  if defined?(Rails) && active_record_gem_version >= Gem::Version.new('5.0.0.beta1')
     { params: args }
   else
     args
@@ -62,12 +62,21 @@ require 'timecop'
 
 # Run any available migration
 schema_migration = ActiveRecord::Base.connection.schema_migration
-::ActiveRecord::MigrationContext.new(File.expand_path('dummy_app/db/migrate/', __dir__), schema_migration).migrate
+ActiveRecord::MigrationContext.new(File.expand_path('dummy_app/db/migrate/', __dir__), schema_migration).migrate
 
 require 'database_cleaner'
 DatabaseCleaner.strategy = :truncation
-
+# require 'psych'
+# require 'big_decimal'
+# Psych.load_tags['ruby/object:BigDecimal'] = BigDecimal
+# Psych.load_tags['tag:ruby.yaml.org,2002:object:BigDecimal'] = BigDecimal
+# Psych.load_tags['tag:ruby.yaml.org,2002:BigDecimal'] = BigDecimal
+#
+# # Also fix Time (common in PaperTrail object_changes)
+Psych.load_tags['ruby/object:Time'] = Time
+# Psych.load_tags['tag:ruby.yaml.org,2002:object:Time'] = Time
+# Psych.load_tags['tag:ruby.yaml.org,2002:Time'] = Time
 RSpec.configure do |config|
-  config.fixture_path = "#{::Rails.root}/spec/fixtures"
-  config.use_transactional_fixtures = active_record_gem_version >= ::Gem::Version.new('5')
+  config.fixture_path = "#{Rails.root}/spec/fixtures"
+  config.use_transactional_fixtures = active_record_gem_version >= Gem::Version.new('5')
 end

@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require 'spec_helper'
-
 module PaperTrailScrapbook
   ::RSpec.describe Changes do
     let(:version) do
